@@ -1,0 +1,93 @@
+[gd_scene load_steps=9 format=3 uid="uid://dodxcarlhlr3s"]
+
+[ext_resource type="Script" path="res://hikouki.gd" id="1_gxipv"]
+[ext_resource type="Texture2D" uid="uid://c0nadt22kcsvj" path="res://sprite/dashed-line.png" id="2_1qict"]
+[ext_resource type="Texture2D" uid="uid://cc1s0mvvmmjp5" path="res://sprite/warthog.png" id="3_fhoyw"]
+[ext_resource type="AudioStream" uid="uid://cjwlyuhoegdwc" path="res://sound/FLIGHT.wav" id="4_aow0n"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0gvoa"]
+radius = 48.1664
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4xgpb"]
+size = Vector2(62, 33)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yw648"]
+size = Vector2(56, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jw8j"]
+size = Vector2(504.938, 55)
+
+[node name="Warthog" type="Node2D" groups=["planes"]]
+script = ExtResource("1_gxipv")
+base_speed = 50
+speed_variance = 15
+climbspeed = 40
+
+[node name="DirectionLine" type="Line2D" parent="."]
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 2001, 0)
+width = 2.0
+default_color = Color(0.94902, 0.643137, 0.862745, 0.482353)
+texture = ExtResource("2_1qict")
+texture_mode = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_fhoyw")
+
+[node name="Warnbox" type="Area2D" parent="." groups=["warnbox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Warnbox"]
+shape = SubResource("CircleShape2D_0gvoa")
+debug_color = Color(0.882353, 0.298039, 0.419608, 0.419608)
+
+[node name="Nearmissbox" type="Area2D" parent="." groups=["nearmiss"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nearmissbox"]
+shape = SubResource("RectangleShape2D_4xgpb")
+debug_color = Color(0.901961, 0.286275, 0.329412, 0.419608)
+
+[node name="Clickbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Clickbox"]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_yw648")
+debug_color = Color(0.756863, 0.435294, 0.396078, 0.419608)
+
+[node name="Hitbox" type="Area2D" parent="." groups=["hitbox"]]
+
+[node name="Shape" type="CollisionPolygon2D" parent="Hitbox"]
+position = Vector2(0.5, -0.5)
+polygon = PackedVector2Array(-27.5, 5.5, -29.5, 2.5, -28.5, -7.5, -22.5, -7.5, -20.5, 0.5, -16.5, -4.5, -8.5, -4.5, -7.5, -1.5, -5.5, -1.5, -3.5, -4.5, 3.5, -4.5, 6.5, -5.5, 11.5, -4.5, 15.5, -5.5, 18.5, -5.5, 26.5, 2.5, 17.5, 4.5, 2.5, 4.5, -0.5, 6.5, -6.5, 4.5, -14.5, 4.5, -17.5, 6.5, -20.5, 4.5, -22.5, 5.5)
+
+[node name="TargetFLLine" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(-2001, 0, 2001, 0)
+width = 1.0
+default_color = Color(0.756863, 0.764706, 0.184314, 0.521569)
+
+[node name="FLDiffLine" type="Line2D" parent="."]
+visible = false
+width = 1.0
+default_color = Color(0.756863, 0.764706, 0.184314, 0.521569)
+
+[node name="Debug" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 17.0
+
+[node name="Spawnguard" type="Area2D" parent="." groups=["spawnguard"]]
+position = Vector2(195, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spawnguard"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_7jw8j")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_aow0n")
+volume_db = 5.622
+autoplay = true
+max_distance = 524.0
+
+[connection signal="area_entered" from="Warnbox" to="." method="_on_warnbox_area_entered" flags=18]
+[connection signal="area_entered" from="Nearmissbox" to="." method="_on_nearmissbox_area_entered" flags=18]
+[connection signal="input_event" from="Clickbox" to="." method="_on_clickbox_input_event" flags=18]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered" flags=18]

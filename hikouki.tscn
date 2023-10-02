@@ -1,0 +1,109 @@
+[gd_scene load_steps=11 format=3 uid="uid://dwabe228ut1ci"]
+
+[ext_resource type="Texture2D" uid="uid://46hgk8gnprje" path="res://sprite/plane64x64.png" id="1_4en3j"]
+[ext_resource type="Script" path="res://hikouki.gd" id="1_eg28v"]
+[ext_resource type="Texture2D" uid="uid://c0nadt22kcsvj" path="res://sprite/dashed-line.png" id="2_2xqy1"]
+[ext_resource type="Texture2D" uid="uid://p3njt452e1r5" path="res://sprite/vaportrail.png" id="4_fffqj"]
+[ext_resource type="AudioStream" uid="uid://cjwlyuhoegdwc" path="res://sound/FLIGHT.wav" id="5_2fvna"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0gvoa"]
+radius = 48.1664
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4xgpb"]
+size = Vector2(62, 33)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rw3s6"]
+size = Vector2(64, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jw8j"]
+size = Vector2(504.938, 55)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0fwgi"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+linear_accel_max = 0.01
+
+[node name="Concorde" type="Node2D" groups=["planes"]]
+script = ExtResource("1_eg28v")
+climbspeed = 30
+
+[node name="DirectionLine" type="Line2D" parent="."]
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 2001, 0)
+width = 2.0
+default_color = Color(0.94902, 0.643137, 0.862745, 0.482353)
+texture = ExtResource("2_2xqy1")
+texture_mode = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4en3j")
+
+[node name="Warnbox" type="Area2D" parent="." groups=["warnbox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Warnbox"]
+shape = SubResource("CircleShape2D_0gvoa")
+debug_color = Color(0.882353, 0.298039, 0.419608, 0.419608)
+
+[node name="Nearmissbox" type="Area2D" parent="." groups=["nearmiss"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nearmissbox"]
+position = Vector2(-0.5, -1.5)
+shape = SubResource("RectangleShape2D_4xgpb")
+debug_color = Color(0.901961, 0.286275, 0.329412, 0.419608)
+
+[node name="Clickbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Clickbox"]
+position = Vector2(1, -0.5)
+shape = SubResource("RectangleShape2D_rw3s6")
+debug_color = Color(0.756863, 0.435294, 0.396078, 0.419608)
+
+[node name="Hitbox" type="Area2D" parent="." groups=["hitbox"]]
+
+[node name="Shape" type="CollisionPolygon2D" parent="Hitbox"]
+polygon = PackedVector2Array(-15, 5, -30, -1, -30, -3, -24, -3, -24, -10, -17, -10, -12, -5, 24, -5, 32, 1, 17, 1, 12, 4, 2, 5)
+
+[node name="TargetFLLine" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(-2001, 0, 2001, 0)
+width = 1.0
+default_color = Color(0.756863, 0.764706, 0.184314, 0.521569)
+
+[node name="FLDiffLine" type="Line2D" parent="."]
+visible = false
+width = 1.0
+default_color = Color(0.756863, 0.764706, 0.184314, 0.521569)
+
+[node name="Debug" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 17.0
+
+[node name="Spawnguard" type="Area2D" parent="." groups=["spawnguard"]]
+position = Vector2(195, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spawnguard"]
+shape = SubResource("RectangleShape2D_7jw8j")
+
+[node name="Vaportrail" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.403922)
+amount = 85
+process_material = SubResource("ParticleProcessMaterial_0fwgi")
+texture = ExtResource("4_fffqj")
+lifetime = 13.12
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_2fvna")
+volume_db = 2.811
+autoplay = true
+max_distance = 542.0
+
+[connection signal="area_entered" from="Warnbox" to="." method="_on_warnbox_area_entered"]
+[connection signal="area_entered" from="Nearmissbox" to="." method="_on_nearmissbox_area_entered"]
+[connection signal="input_event" from="Clickbox" to="." method="_on_clickbox_input_event"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

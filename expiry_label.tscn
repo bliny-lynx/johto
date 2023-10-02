@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://ovtf6k5u0ocn"]
+
+[ext_resource type="Script" path="res://expiry_label.gd" id="1_djebd"]
+
+[node name="ExpiryLabel" type="Label"]
+modulate = Color(0.988235, 0.278431, 0.0980392, 0.807843)
+offset_right = 40.0
+offset_bottom = 17.0
+text = "Near miss!"
+script = ExtResource("1_djebd")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.383
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

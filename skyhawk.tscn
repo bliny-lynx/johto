@@ -1,0 +1,115 @@
+[gd_scene load_steps=12 format=3 uid="uid://cbnsw08284emv"]
+
+[ext_resource type="Script" path="res://hikouki.gd" id="1_cja6j"]
+[ext_resource type="Texture2D" uid="uid://c0nadt22kcsvj" path="res://sprite/dashed-line.png" id="2_2pr2n"]
+[ext_resource type="Texture2D" uid="uid://cslo7o3nom4ju" path="res://sprite/cessna.png" id="3_udpj7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xs506"]
+atlas = ExtResource("3_udpj7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eof3b"]
+atlas = ExtResource("3_udpj7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1q24w"]
+atlas = ExtResource("3_udpj7")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e50xg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xs506")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eof3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1q24w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n5yi4"]
+radius = 48.1664
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_54wjx"]
+size = Vector2(62, 33)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6v44r"]
+size = Vector2(36, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n5gkp"]
+size = Vector2(533.125, 51)
+
+[node name="Skyhawk" type="Node2D" groups=["planes"]]
+script = ExtResource("1_cja6j")
+base_speed = 15
+speed_variance = 35
+
+[node name="DirectionLine" type="Line2D" parent="."]
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 2001, 0)
+width = 2.0
+default_color = Color(0.94902, 0.643137, 0.862745, 0.482353)
+texture = ExtResource("2_2pr2n")
+texture_mode = 1
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_e50xg")
+autoplay = "default"
+
+[node name="Warnbox" type="Area2D" parent="." groups=["warnbox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Warnbox"]
+shape = SubResource("CircleShape2D_n5yi4")
+debug_color = Color(0.882353, 0.298039, 0.419608, 0.419608)
+
+[node name="Nearmissbox" type="Area2D" parent="." groups=["nearmiss"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Nearmissbox"]
+position = Vector2(1, -0.5)
+shape = SubResource("RectangleShape2D_54wjx")
+debug_color = Color(0.901961, 0.286275, 0.329412, 0.419608)
+
+[node name="Clickbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Clickbox"]
+shape = SubResource("RectangleShape2D_6v44r")
+debug_color = Color(0.756863, 0.435294, 0.396078, 0.419608)
+
+[node name="Hitbox" type="Area2D" parent="." groups=["hitbox"]]
+
+[node name="Shape" type="CollisionPolygon2D" parent="Hitbox"]
+position = Vector2(0.5, -0.5)
+polygon = PackedVector2Array(-14.5, -0.5, -16.5, -7.5, -10.5, -7.5, -10.5, -3.5, -3.5, -3.5, -0.5, -6.5, 3.5, -6.5, 8.5, -1.5, 12.5, -3.5, 13.5, 1.5, 12.5, 4.5, 9.5, 6.5, -0.5, 7.5, -7.5, -0.5)
+
+[node name="TargetFLLine" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(-2001, 0, 2001, 0)
+width = 1.0
+default_color = Color(0.756863, 0.764706, 0.184314, 0.521569)
+
+[node name="FLDiffLine" type="Line2D" parent="."]
+visible = false
+width = 1.0
+default_color = Color(0.756863, 0.764706, 0.184314, 0.521569)
+
+[node name="Debug" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 17.0
+
+[node name="Spawnguard" type="Area2D" parent="." groups=["spawnguard"]]
+position = Vector2(195, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spawnguard"]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_n5gkp")
+
+[connection signal="area_entered" from="Warnbox" to="." method="_on_warnbox_area_entered" flags=18]
+[connection signal="area_entered" from="Nearmissbox" to="." method="_on_nearmissbox_area_entered" flags=18]
+[connection signal="input_event" from="Clickbox" to="." method="_on_clickbox_input_event" flags=18]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered" flags=18]

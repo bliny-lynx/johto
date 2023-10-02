@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://j4gpi06dnffl"]
+
+[ext_resource type="Script" path="res://GameOver.gd" id="1_nh1wf"]
+[ext_resource type="Texture2D" uid="uid://cvinshrvdlxr7" path="res://sprite/bg_over.png" id="2_lx813"]
+[ext_resource type="FontFile" uid="uid://1m8wuj1scm5x" path="res://font/Mx437_IBM_PS-55_re.ttf" id="3_73rn5"]
+[ext_resource type="Texture2D" uid="uid://cx0p7ip6ojxn1" path="res://sprite/replay.png" id="4_3saqp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_63pgn"]
+font = ExtResource("3_73rn5")
+font_size = 31
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nh1wf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_lx813")
+centered = false
+
+[node name="gameover" type="Label" parent="."]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 107.0
+offset_right = 179.0
+offset_bottom = 139.0
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_63pgn")
+
+[node name="score" type="Label" parent="."]
+layout_mode = 0
+offset_left = 353.0
+offset_top = 106.0
+offset_right = 470.0
+offset_bottom = 138.0
+text = "Score "
+label_settings = SubResource("LabelSettings_63pgn")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 220.0
+offset_right = 116.0
+offset_bottom = 252.0
+texture_normal = ExtResource("4_3saqp")
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyexlrrv42at2"]
+
+[ext_resource type="Texture2D" uid="uid://qtl1dbaw4vsg" path="res://sprite/cloud.png" id="1_advoi"]
+[ext_resource type="Script" path="res://cloud.gd" id="1_nt8da"]
+
+[node name="Cloud" type="Node2D"]
+script = ExtResource("1_nt8da")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.752941)
+texture = ExtResource("1_advoi")

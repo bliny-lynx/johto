@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://bx0wxc0s6y5an"]
+
+[ext_resource type="Script" path="res://menu.gd" id="1_p4kp3"]
+[ext_resource type="Texture2D" uid="uid://b4co5k80fwat3" path="res://sprite/blank_bg.png" id="1_vgr6d"]
+[ext_resource type="Texture2D" uid="uid://caykch0xnol8y" path="res://sprite/play_button.png" id="2_jnvtt"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_p4kp3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_vgr6d")
+centered = false
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 333.0
+offset_right = 284.0
+offset_bottom = 366.0
+toggle_mode = true
+action_mode = 0
+texture_normal = ExtResource("2_jnvtt")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 36.0
+offset_right = 71.0
+offset_bottom = 53.0
+text = "You are the air
+traffic controller."
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 317.0
+offset_top = 24.0
+offset_right = 501.0
+offset_bottom = 64.0
+text = "Drag the planes to
+set their flight level."
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 236.0
+offset_right = 215.0
+offset_bottom = 276.0
+text = "Avoid collisions
+at all cost."
+
+[node name="Label5" type="Label" parent="."]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 139.0
+offset_right = 202.0
+offset_bottom = 199.0
+text = "Cleared flights award
+points, and near
+misses deduct them."
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 244.0
+offset_right = 476.0
+offset_bottom = 284.0
+text = "You have limited
+airspace. Good luck!"
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

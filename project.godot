@@ -1,0 +1,48 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="johto"
+config/description="You are responsible for a patch of airspace. You are the Air Traffic Controller."
+run/main_scene="res://menu.tscn"
+config/features=PackedStringArray("4.0", "GL Compatibility")
+config/icon="res://sprite/cessna_icon.png"
+
+[autoload]
+
+Globals="*res://globals.gd"
+Audio="*res://audio.gd"
+
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=600
+window/size/window_width_override=1200
+window/size/window_height_override=900
+window/stretch/mode="canvas_items"
+window/stretch/scale=1.5
+mouse_cursor/custom_image="res://sprite/cursor.png"
+
+[editor]
+
+movie_writer/movie_file="C:/Users/eal/dev/ld54/sample.avi"
+
+[gui]
+
+theme/custom_font="res://font/Px437_DOS-V_re_JPN12.ttf"
+theme/default_font_antialiasing=0
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method.web="forward_plus"
+anti_aliasing/screen_space_roughness_limiter/enabled=false

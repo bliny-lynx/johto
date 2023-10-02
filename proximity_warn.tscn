@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://duiocnwut6te4"]
+
+[ext_resource type="Texture2D" uid="uid://c0nadt22kcsvj" path="res://sprite/dashed-line.png" id="1_18acj"]
+[ext_resource type="Script" path="res://proximity_warn.gd" id="1_20ml4"]
+[ext_resource type="AudioStream" uid="uid://mv6t6kogr48s" path="res://sound/WARNING.wav" id="3_sarnb"]
+
+[node name="ProximityWarn" type="Node2D"]
+script = ExtResource("1_20ml4")
+
+[node name="Line2D" type="Line2D" parent="."]
+modulate = Color(0.890196, 0.443137, 0.0901961, 0.584314)
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 76, 0)
+width = 2.0
+texture = ExtResource("1_18acj")
+texture_mode = 1
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(0.890196, 0.443137, 0.0901961, 0.584314)
+offset_right = 40.0
+offset_bottom = 17.0
+text = "WARN"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_sarnb")
+volume_db = 4.685
+autoplay = true
+bus = &"warning"
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
